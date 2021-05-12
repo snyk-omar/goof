@@ -1,47 +1,37 @@
 name: Node.js CI
-
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [14]
-
     steps:
+      # Checkout Code
       - uses: actions/checkout@v2
+      # Set up Environment
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+      # Run Snyk Test
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif
-        - name: Upload result to GitHub Code Scanning
-          uses: github/codeql-action/upload-sarif@v1
-          with:
-            sarif_file: snyk.sarif
-
-  monitor:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+      # Upload Results
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif
+      # Run Snyk Monitor
       - name: Run Snyk monitor to be updated on new vulns
         uses: snyk/actions/node@master
         env:
