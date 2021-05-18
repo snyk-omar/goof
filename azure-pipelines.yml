@@ -16,7 +16,7 @@ steps:
     serviceConnectionEndpoint: 'Snyk'
     testType: 'app'
     monitorOnBuild: true
-    failOnIssues: true
+    failOnIssues: false
     projectName: 'azure-pipelines-goof'
     organization: 'a417db03-e3b7-4bfe-bf08-26f9a802f79b'
 
