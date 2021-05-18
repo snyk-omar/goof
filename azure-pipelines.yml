@@ -1,0 +1,26 @@
+# Node.js
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- task: SnykSecurityScan@0
+  inputs:
+    serviceConnectionEndpoint: 'Snyk'
+    testType: 'app'
+    monitorOnBuild: true
+    failOnIssues: true
+    projectName: 'azure-pipelines-goof'
+    organization: 'a417db03-e3b7-4bfe-bf08-26f9a802f79b'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
