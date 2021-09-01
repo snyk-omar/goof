@@ -127,3 +127,4 @@ dist
 .idea/
 public/*
 .dccache
+.scannerwork
