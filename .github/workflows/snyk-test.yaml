@@ -22,8 +22,8 @@ jobs:
       # Run Snyk Test
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        env:
         command: code test
+        env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif
