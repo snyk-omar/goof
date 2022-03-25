@@ -22,10 +22,10 @@ jobs:
       # Run Snyk Test
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        command: code test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
+          command: code test
           args: --sarif-file-output=snyk.sarif
         continue-on-error: true
       # Upload Results
